@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "client"
+}
+datasource db {
+  provider = "sqlite"
+  url = env("DATABASE_URL")
+}
+model Hotel {
+  id       String @id @default(cuid())
+  name     String
+  city     String
+  cases    SearchCase[]
+}
+model SearchCase {
+  id            String @id @default(cuid())
+  number        Int @unique
+  title         String
+  hotelId       String
+  hotel         Hotel @relation(fields: [hotelId], references: [id])
+  category      String
+  urgency       String @default("NORMAL")
+  status        String @default("OPEN")
+  manufacturer  String @default("")
+  model         String @default("")
+  serialNumber  String @default("")
+  partNumber    String @default("")
+  systemYear    String @default("")
+  description   String @default("")
+  parameters    String @default("")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  attachments   Attachment[]
+  candidates    Candidate[]
+  searches      SearchRun[]
+  drafts        ContactDraft[]
+  benefit       Benefit?
+}
+model Attachment {
+  id            String @id @default(cuid())
+  caseId        String
+  searchCase    SearchCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  originalName  String
+  storageName   String
+  mimeType      String
+  size          Int
+  extractedText String @default("")
+  createdAt     DateTime @default(now())
+}
+model SearchRun {
+  id        String @id @default(cuid())
+  caseId    String
+  searchCase SearchCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  provider  String
+  queries   String
+  count     Int
+  createdAt DateTime @default(now())
+}
+model Candidate {
+  id             String @id @default(cuid())
+  caseId         String
+  searchCase     SearchCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  externalId     String
+  title          String
+  manufacturer   String
+  partNumber     String
+  kind           String
+  stage          Int
+  source         String
+  url            String
+  description    String
+  price          Float?
+  availability   String
+  parameters     String
+  warnings       String
+  reviewStatus   String @default("UNREVIEWED")
+  reviewNote     String @default("")
+  reviewedAt     DateTime?
+  createdAt      DateTime @default(now())
+  drafts         ContactDraft[]
+  @@unique([caseId, externalId])
+}
+model ContactDraft {
+  id        String @id @default(cuid())
+  caseId    String
+  searchCase SearchCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  candidateId String
+  candidate Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  subject   String
+  body      String
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+model Benefit {
+  id              String @id @default(cuid())
+  caseId          String @unique
+  searchCase      SearchCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  partCost        Float
+  laborCost       Float
+  replacementCost Float
+  downtimeDays    Float
+  dailyCost       Float
+  extensionMonths Int
+  notes           String @default("")
+  updatedAt       DateTime @updatedAt
+}

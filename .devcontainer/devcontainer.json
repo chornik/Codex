@@ -1,0 +1,18 @@
+{
+  "name": "partsdesk – private Browserdemo",
+  "image": "node:24-bookworm",
+  "remoteUser": "node",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "partsdesk",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "otherPortsAttributes": { "onAutoForward": "ignore" },
+  "postCreateCommand": "node scripts/browser-setup.mjs",
+  "postStartCommand": "nohup npm run browser > /tmp/partsdesk-browser.log 2>&1 &",
+  "customizations": {
+    "codespaces": { "openFiles": ["BROWSER_START.md"] }
+  }
+}

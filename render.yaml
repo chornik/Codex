@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: partsdesk-demo
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run web
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./web-demo.db
+      - key: UPLOAD_DIR
+        value: ./data/web-uploads
+      - key: SEARCH_PROVIDER
+        value: demo
+      - key: DEMO_AUTH_REQUIRED
+        value: "1"
+      - key: DEMO_USERNAME
+        value: demo
+      - key: DEMO_PASSWORD
+        generateValue: true
+      - key: DEMO_EPHEMERAL
+        value: "1"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: CHECKPOINT_DISABLE
+        value: "1"

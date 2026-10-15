@@ -1,0 +1,9 @@
+FIKTIVES DEMO-TYPENSCHILD
+SIEMENS
+Typ: SQX32.00
+Artikelnummer: SQX32.00
+S/N: DEMO-1998-0042
+AC 230 V / 50 Hz
+Hub: 20 mm
+Stellkraft: 700 N
+Keine technische Spezifikation. Angaben am echten Bauteil prüfen.
