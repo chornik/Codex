@@ -20,7 +20,13 @@ const fieldLabels = {
   serialNumber: "Seriennummer",
   parameters: "Technische Parameter",
 };
-export function Documents({ item }: { item: FullCase }) {
+export function Documents({
+  item,
+  browserPreview = false,
+}: {
+  item: FullCase;
+  browserPreview?: boolean;
+}) {
   const [text, setText] = useState("");
   const [busy, setBusy] = useState("");
   const [notice, setNotice] = useState("");
@@ -106,8 +112,9 @@ export function Documents({ item }: { item: FullCase }) {
         <div>
           <h2>Aus Unterlagen werden Suchspuren.</h2>
           <p>
-            Lokale OCR und regelbasierte Analyse. Keine Dokumente werden an
-            externe KI-Dienste gesendet.
+            {browserPreview
+              ? "Textanalyse und TXT-Auslesen laufen direkt im Browser. Foto-OCR und PDF-Auslesen sind in der Serverversion verfügbar."
+              : "Lokale OCR und regelbasierte Analyse. Keine Dokumente werden an externe KI-Dienste gesendet."}
           </p>
         </div>
         <span className="privacy-chip">
@@ -194,7 +201,14 @@ export function Documents({ item }: { item: FullCase }) {
                 <Button
                   variant="secondary"
                   busy={busy === a.id}
-                  disabled={!!busy}
+                  disabled={
+                    !!busy || (browserPreview && a.mimeType !== "text/plain")
+                  }
+                  title={
+                    browserPreview && a.mimeType !== "text/plain"
+                      ? "Foto-OCR und PDF-Auslesen benötigen die Serverversion."
+                      : undefined
+                  }
                   onClick={() => extract(a.id)}
                 >
                   <ScanLine size={15} />
@@ -236,9 +250,9 @@ export function Documents({ item }: { item: FullCase }) {
             Produktdaten erkennen
           </Button>
           <p className="small-note">
-            Erkennt bekannte Hersteller und beschriftete Felder. OCR kann
-            Zeichen verwechseln. Aus gescannten PDFs bitte einzelne Seiten als
-            Bild hochladen.
+            {browserPreview
+              ? "Die Textanalyse erkennt bekannte Hersteller und beschriftete Felder. Produktdaten bitte am Original prüfen. Dateien bleiben in der Browserdemo; es findet kein Upload auf einen Server statt."
+              : "Erkennt bekannte Hersteller und beschriftete Felder. OCR kann Zeichen verwechseln. Aus gescannten PDFs bitte einzelne Seiten als Bild hochladen."}
           </p>
         </section>
       </div>

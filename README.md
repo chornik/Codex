@@ -4,6 +4,14 @@ Lokal startbarer MVP für die KI-gestützte Ersatzteilrecherche einer Hotelgrupp
 
 **Keine autonome Beschaffung:** Die Anwendung bestellt nichts, versendet keine E-Mails und kontaktiert keine Hersteller. Eine Freigabe im Tool bedeutet ausschließlich „für Kontaktaufnahme freigegeben“, niemals eine technische Freigabe oder garantierte Kompatibilität.
 
+## Direkte interaktive HTML-Vorschau
+
+[index.html](index.html) ist eine eigenständige Browserdemo mit derselben Oberfläche. Alle Skripte, Stile und Beispieldateien sind eingebettet; es werden keine Pakete installiert, keine externen Dienste geladen und keine Server benötigt. In einer Oberfläche mit HTML-Dateivorschau lässt sich die Datei direkt öffnen.
+
+Die Demo unterstützt Fallverwaltung, TXT- und Textanalyse, Demo-Recherche, Vergleich, begründete Entscheidungen, Kontaktentwürfe und Nutzenrechnung. Daten bleiben im Browser; wenn die Vorschau keinen Browserspeicher erlaubt, gelten Änderungen nur für die aktuelle Sitzung. Dateien werden nach Möglichkeit in IndexedDB gespeichert. Es gibt keine Synchronisierung mit der SQLite-Datenbank. Foto-OCR, PDF-Auslesen und echte Websuche sind in dieser Vorschau ausdrücklich nicht aktiv; dafür bleibt die vollständige Serveranwendung verfügbar.
+
+Für Entwicklung: `npm run preview:build` erzeugt die einzelne HTML-Datei neu. `npm run test:preview` prüft die eingebettete Vorschau mit Playwright einschließlich des Rechercheablaufs und ohne Netzwerkanfragen. Die Build-Quellen liegen in `preview/`; sie verwenden die bestehenden React-Komponenten und eine getrennte lokale Demo-Datenhaltung. Eine Vorschauplattform kann JavaScript oder Speicherung einschränken; ein Link zur Datei ist keine öffentliche Website-Adresse.
+
 ## Schnellstart
 
 Voraussetzungen: **Node.js 24 LTS** (siehe `.nvmrc`; mindestens 22.13), npm, ein beschreibbares Projektverzeichnis. Kein Docker, kein Datenbankserver und keine API-Keys nötig. Unter Linux müssen die üblichen Laufzeitbibliotheken für native npm-Pakete vorhanden sein; SQLite und Bildverarbeitung werden über npm bereitgestellt.

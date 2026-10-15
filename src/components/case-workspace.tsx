@@ -35,9 +35,11 @@ const tabs = [
 export function CaseWorkspace({
   item,
   hotels,
+  browserPreview = false,
 }: {
   item: FullCase;
   hotels: Hotel[];
+  browserPreview?: boolean;
 }) {
   const [tab, setTab] = useState("overview");
   const [editing, setEditing] = useState(false);
@@ -291,7 +293,9 @@ export function CaseWorkspace({
             </aside>
           </div>
         )}
-        {tab === "documents" && <Documents item={item} />}
+        {tab === "documents" && (
+          <Documents item={item} browserPreview={browserPreview} />
+        )}
         {tab === "research" && (
           <Research item={item} onContact={() => setTab("contacts")} />
         )}

@@ -16,7 +16,9 @@
     "setup": "prisma generate && prisma db push && tsx prisma/seed.ts",
     "samples": "tsx scripts/create-samples.ts",
     "browser": "node scripts/browser-start.mjs",
-    "web": "node scripts/web-start.mjs"
+    "web": "node scripts/web-start.mjs",
+    "preview:build": "node scripts/build-preview.mjs",
+    "test:preview": "npm run preview:build && playwright test --config playwright.preview.config.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -41,6 +43,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "autoprefixer": "^10.4.21",
+    "esbuild": "^0.28.2",
     "eslint": "^9.34.0",
     "eslint-config-next": "16.4.1",
     "pdf-lib": "^1.17.1",
